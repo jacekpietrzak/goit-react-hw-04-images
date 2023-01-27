@@ -1,0 +1,19 @@
+.Overlay {
+  z-index: 1200;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.Modal {
+  z-index: 1205;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 24px);
+  transform: translate(-50%, -50%);
+}
