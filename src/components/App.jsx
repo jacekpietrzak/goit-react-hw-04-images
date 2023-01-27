@@ -21,77 +21,61 @@ const App = () => {
 
   const loadImages = async () => {
     setIsLoading(true);
-    // this.setState({ isLoading: true });
     try {
-      // const { topic, page, perPage } = this.state;
-
       const response = await fetchImages(topic, page, perPage);
       setImages(response.hits);
       setTotalHits(response.totalHits);
       setError(null);
-
-      // this.setState({
-      //   images: response.hits,
-      //   error: null,
-      //   totalHits: response.totalHits,
-      // });
     } catch (error) {
       setError(error);
-
-      // this.setState({ error: error });
       throw new Error(error);
     } finally {
       setIsLoading(false);
-
-      // this.setState({ isLoading: false });
     }
   };
 
   const loadMoreImages = async () => {
     setIsLoading(true);
 
-    // this.setState({ isLoading: true });
     try {
-      // const { topic, page, perPage } = this.state;
-
       const response = await fetchImages(topic, page, perPage);
 
       setImages([...images, ...response.hits]);
       setError(null);
-
-      // this.setState(prevState => {
-      //   return {
-      //     images: [...prevState.images, ...response.hits],
-      //     error: null,
-      //   };
-      // });
     } catch (error) {
       setError(error);
-      // this.setState({ error: error });
       throw new Error(error);
     } finally {
       setIsLoading(false);
-      // this.setState({ isLoading: false });
     }
   };
 
   const handleFormSubmit = event => {
     event.preventDefault();
-    loadImages();
+
+    if (topic.length !== 0) {
+      console.log(
+        'topic from form submit:',
+        typeof topic,
+        'topic:',
+        'topic length:',
+        topic.length
+      );
+      loadImages();
+    } else {
+      alert('Type something');
+    }
   };
 
   const handleInputChange = event => {
     const value = event.target.value;
-    if (value.length !== 0) {
-      setTopic(value);
-    }
+    setTopic(value);
   };
 
   const handleLoadMore = () => {
     setPage(page + 1);
   };
 
-  // Component did update
   useEffect(() => {
     if (page !== 1) {
       loadMoreImages();
