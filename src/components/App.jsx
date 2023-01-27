@@ -12,7 +12,7 @@ const App = () => {
   const [topic, setTopic] = useState('');
   const [page, setPage] = useState(1);
   const [totalHits, setTotalHits] = useState(500);
-  const [perPage, setPerPage] = useState(12);
+  const perPage = 12;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -26,13 +26,19 @@ const App = () => {
       setImages(response.hits);
       setTotalHits(response.totalHits);
       setError(null);
-    } catch (error) {
-      setError(error);
+    } catch (newError) {
+      setError(newError);
       throw new Error(error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (page !== 1) {
+      loadMoreImages();
+    }
+  }, [page]);
 
   const loadMoreImages = async () => {
     setIsLoading(true);
@@ -42,8 +48,8 @@ const App = () => {
 
       setImages([...images, ...response.hits]);
       setError(null);
-    } catch (error) {
-      setError(error);
+    } catch (newError) {
+      setError(newError);
       throw new Error(error);
     } finally {
       setIsLoading(false);
@@ -75,12 +81,6 @@ const App = () => {
   const handleLoadMore = () => {
     setPage(page + 1);
   };
-
-  useEffect(() => {
-    if (page !== 1) {
-      loadMoreImages();
-    }
-  }, [page]);
 
   const handleshowModal = event => {
     const imgAlt = event.target.alt;
