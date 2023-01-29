@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const Modal = ({ imgAlt, imgLargeSrc, onModalClose }) => {
   useEffect(() => {
     document.addEventListener('keydown', onKeyPress);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onKeyPress = event => {
