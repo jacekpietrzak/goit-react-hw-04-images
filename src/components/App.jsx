@@ -40,6 +40,12 @@ const App = () => {
     }
   }, [page]);
 
+  const handleLoadMore = () => {
+    if (topic.length !== 0) {
+      setPage(page + 1);
+    }
+  };
+
   const loadMoreImages = async () => {
     setIsLoading(true);
 
@@ -76,10 +82,6 @@ const App = () => {
   const handleInputChange = event => {
     const value = event.target.value;
     setTopic(value);
-  };
-
-  const handleLoadMore = () => {
-    setPage(page + 1);
   };
 
   const handleshowModal = event => {
