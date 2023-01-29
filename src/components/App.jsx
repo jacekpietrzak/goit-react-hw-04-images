@@ -38,6 +38,7 @@ const App = () => {
     if (page !== 1) {
       loadMoreImages();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const handleLoadMore = () => {
