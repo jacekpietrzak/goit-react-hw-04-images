@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import css from './ImageGallery.module.css';
 
 const ImageGallery = ({ images, handleshowModal }) => {
-  // console.log('from image gallery:', images);
   return (
     <ul className={css.ImageGallery}>
       {images &&

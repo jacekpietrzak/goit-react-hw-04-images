@@ -9,12 +9,10 @@ import Modal from './Modal/Modal';
 
 const App = () => {
   const [images, setImages] = useState([]);
-  const [topic, setTopic] = useState('');
+  const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [totalHits, setTotalHits] = useState(500);
-  const perPage = 12;
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [imgLargeSrc, setImgLargeSrc] = useState('');
   const [imgAlt, setImgAlt] = useState('');
@@ -22,13 +20,10 @@ const App = () => {
   const loadImages = async () => {
     setIsLoading(true);
     try {
-      const response = await fetchImages(topic, page, perPage);
+      const response = await fetchImages(query, page);
       setImages(response.hits);
       setTotalHits(response.totalHits);
-      setError(null);
-    } catch (newError) {
-      setError(newError);
-      throw new Error(error);
+    } catch (error) {
     } finally {
       setIsLoading(false);
     }
@@ -42,7 +37,7 @@ const App = () => {
   }, [page]);
 
   const handleLoadMore = () => {
-    if (topic.length !== 0) {
+    if (query.length !== 0) {
       setPage(page + 1);
     }
   };
@@ -51,12 +46,10 @@ const App = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetchImages(topic, page, perPage);
+      const response = await fetchImages(query, page);
 
       setImages([...images, ...response.hits]);
-      setError(null);
-    } catch (newError) {
-      setError(newError);
+    } catch (error) {
       throw new Error(error);
     } finally {
       setIsLoading(false);
@@ -66,13 +59,13 @@ const App = () => {
   const handleFormSubmit = event => {
     event.preventDefault();
 
-    if (topic.length !== 0) {
+    if (query.length !== 0) {
       console.log(
-        'topic from form submit:',
-        typeof topic,
-        'topic:',
-        'topic length:',
-        topic.length
+        'query from form submit:',
+        typeof query,
+        'query:',
+        'query length:',
+        query.length
       );
       loadImages();
     } else {
@@ -82,7 +75,7 @@ const App = () => {
 
   const handleInputChange = event => {
     const value = event.target.value;
-    setTopic(value);
+    setQuery(value);
   };
 
   const handleshowModal = event => {
@@ -109,7 +102,7 @@ const App = () => {
       <ImageGallery images={images} handleshowModal={handleshowModal} />
       <Loader isLoading={isLoading} />
 
-      {images.length > 0 && page * perPage < totalHits && (
+      {images.length > 0 && page * 12 < totalHits && (
         <Button
           buttonText={isLoading ? 'Loading...' : 'Load More'}
           handleLoadMore={handleLoadMore}
