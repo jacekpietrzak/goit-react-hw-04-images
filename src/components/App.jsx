@@ -50,7 +50,6 @@ const App = () => {
 
       setImages([...images, ...response.hits]);
     } catch (error) {
-      throw new Error(error);
     } finally {
       setIsLoading(false);
     }
